@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { apiBaseUrl, fetchResource } from './api.js'
+import { fetchEndpoint } from './api.js'
 
 function formatValue(value) {
   if (Array.isArray(value)) {
@@ -13,7 +13,7 @@ function formatValue(value) {
   return String(value)
 }
 
-function DataTable({ columns, description, resource, title }) {
+function DataTable({ columns, description, endpoint, resource, title }) {
   const [items, setItems] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -25,7 +25,7 @@ function DataTable({ columns, description, resource, title }) {
       try {
         setIsLoading(true)
         setError('')
-        const data = await fetchResource(resource)
+        const data = await fetchEndpoint(endpoint, resource)
 
         if (isCurrent) {
           setItems(data)
@@ -46,7 +46,7 @@ function DataTable({ columns, description, resource, title }) {
     return () => {
       isCurrent = false
     }
-  }, [resource])
+  }, [endpoint, resource])
 
   return (
     <section className="resource-view">
@@ -56,7 +56,7 @@ function DataTable({ columns, description, resource, title }) {
           <h2>{title}</h2>
           <p>{description}</p>
         </div>
-        <span className="api-pill">{apiBaseUrl}/{resource}/</span>
+        <span className="api-pill">{endpoint}</span>
       </div>
 
       {isLoading && <p className="status-message">Loading {resource}...</p>}

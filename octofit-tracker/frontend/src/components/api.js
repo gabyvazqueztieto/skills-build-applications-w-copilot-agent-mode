@@ -22,12 +22,16 @@ export function normalizeResponse(payload) {
   return candidates.find(Array.isArray) ?? []
 }
 
-export async function fetchResource(resource) {
-  const response = await fetch(`${apiBaseUrl}/${resource}/`)
+export async function fetchEndpoint(endpoint, resource) {
+  const response = await fetch(endpoint)
 
   if (!response.ok) {
     throw new Error(`Failed to load ${resource}: ${response.status}`)
   }
 
   return normalizeResponse(await response.json())
+}
+
+export async function fetchResource(resource) {
+  return fetchEndpoint(`${apiBaseUrl}/${resource}/`, resource)
 }
