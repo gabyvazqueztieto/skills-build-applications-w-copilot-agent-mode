@@ -4,7 +4,7 @@ import database from './config/database.js';
 import { Activity, LeaderboardEntry, Team, User, Workout } from './models/index.js';
 
 const app = express();
-const port = Number(process.env.PORT || 8000);
+const port = Number(process.env.PORT || 8081);
 
 app.use(express.json());
 
